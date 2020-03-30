@@ -1,0 +1,15 @@
+#动态修改日志配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "loggers"
+#由于Spring Boot 2.x默认只暴露 /health 以及 /info 端点，而日志控制需要用到 /loggers 端点，故而需要设置将其暴露。
+server:
+  port: 8082
+
+spring:
+  messages:
+    basename: static/i18n/messages #设置国际化配置文件位置
+    encoding: UTF-8         #设置message bundles 编码方式 默认为 UTF_8
+    cache-duration: -1    #设置加载资源的缓存失效时间，-1为永久有效 默认为-1
