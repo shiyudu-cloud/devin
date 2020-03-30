@@ -21,13 +21,16 @@ public class GlobalInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //根据请求头获取用户的语言设置
         String language = request.getHeader("Accept-Language");
-        String locale = StringUtils.splitByWholeSeparator(language, ",")[0];
-        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-        if (locale.equals("zh-CN")){
-            localeResolver.setLocale(request,response,new Locale("zh","CN"));
-            return true;
+        if (StringUtils.isNotBlank(language)){
+            String locale = StringUtils.splitByWholeSeparator(language, ",")[0];
+            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+            if (locale.equals("zh-CN")){
+                localeResolver.setLocale(request,response,new Locale("zh","CN"));
+                return true;
+            }
+            localeResolver.setLocale(request,response,new Locale("en","US"));
         }
-        localeResolver.setLocale(request,response,new Locale("en","US"));
+
         return true;
     }
     /**在业务处理器处理请求完成之后，生成视图之前执行*/
